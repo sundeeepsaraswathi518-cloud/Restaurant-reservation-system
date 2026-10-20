@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reserve & Pre-Order | RestPro</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="script.js" defer></script>
+</head>
+<body data-page="reservation">
+  <header id="navbar"></header>
+  <main class="section narrow">
+    <h1>Reserve a Table & Pre-Order</h1>
+    
+    <div id="loginNotice" class="form-card" style="display:none; text-align:center;">
+      <h3 style="color:#FF3B30; margin-bottom:1rem;">Authentication Required</h3>
+      <p style="margin-bottom:1.5rem;">You must be logged in with your email to reserve a table.</p>
+      <a href="login.html" class="btn">Login Now</a>
+    </div>
+
+    <div id="reservationFormContainer">
+      <form id="reservationForm" class="form-card">
+        
+        <!-- Live Google-like Restaurant Search Box on the Reserve Page (Stays strictly on this page) -->
+        <label>Search Restaurant
+          <div style="position:relative;">
+            <input id="liveRestaurantSearchInput" type="text" placeholder="Search restaurant..." autocomplete="off" style="font-weight:700;">
+            <div id="liveSearchDropdown" style="display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:2px solid var(--border-color); border-radius:10px; max-height:220px; overflow-y:auto; z-index:100; box-shadow:0 10px 25px rgba(0,0,0,0.15); margin-top:4px;"></div>
+          </div>
+        </label>
+
+        <!-- Selected Restaurant Banner Display -->
+        <div id="selectedRestaurantBanner" style="background:#0f172a; color:#fff; padding:1.25rem; border-radius:12px; margin-bottom:1.5rem; border:1px solid #334155;">
+          <div style="font-size:0.8rem; text-transform:uppercase; color:#94a3b8; letter-spacing:1px; font-weight:700;">Active Restaurant Selected</div>
+          <div id="bannerRestName" style="font-size:1.25rem; font-weight:800; margin-top:4px; color:#facc15;">No Restaurant Selected</div>
+          <div id="bannerRestLoc" style="font-size:0.85rem; color:#cbd5e1; margin-top:2px;">Please use the search box above to choose a restaurant</div>
+        </div>
+
+        <select id="bookingRestaurant" style="display:none;"></select>
+
+        <label>Reservation Date (Day/Month/Year)
+          <input id="bookingDate" type="text" placeholder="DD/MM/YYYY" required style="cursor:pointer;">
+        </label>
+        <label>Reservation Time Slot (30-min intervals)
+          <select id="bookingTime" required></select>
+        </label>
+        
+        <label>Number of Guests (Max 10)
+          <select id="guestCount" required>
+            <option value="1">1 guest</option>
+            <option value="2" selected>2 guests</option>
+            <option value="3">3 guests</option>
+            <option value="4">4 guests</option>
+            <option value="5">5 guests</option>
+            <option value="6">6 guests</option>
+            <option value="7">7 guests</option>
+            <option value="8">8 guests</option>
+            <option value="9">9 guests</option>
+            <option value="10">10 guests</option>
+          </select>
+        </label>
+
+        <!-- Visual Floor Plan Layout -->
+        <div id="floorPlanVisualContainer"></div>
+
+        <!-- Pre-Order Dishes with Quantities -->
+        <label>🍲 Pre-Order Dishes & Quantities
+          <span style="display:block; font-size:0.85rem; font-weight:normal; color:#475569; margin-bottom:0.75rem;">Use (+) and (-) buttons to select quantities:</span>
+          <div id="preOrderDishesContainer" style="max-height:240px; overflow-y:auto; border:1.5px solid #cbd5e1; border-radius:10px; padding:10px; background:#fff;"></div>
+        </label>
+
+        <label>Dietary Preferences
+          <select id="dietaryPrefs">
+            <option value="None">None / Standard</option>
+            <option value="Pure Veg">Pure Veg</option>
+            <option value="Jain">Jain (No Onion/Garlic)</option>
+            <option value="Gluten-Free">Gluten-Free</option>
+          </select>
+        </label>
+
+        <label for="occasion">Occasion (Optional)
+          <select id="occasion" name="occasion">
+            <option value="">Select an occasion</option>
+            <option value="Birthday">Birthday</option>
+            <option value="Anniversary">Anniversary</option>
+            <option value="Date Night">Date Night</option>
+            <option value="Business Meal">Business Meal</option>
+            <option value="Family Gathering">Family Gathering</option>
+            <option value="Celebration">Other Celebration</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+
+        <label for="specialRequests">Special Requests (Optional)
+          <textarea id="specialRequests" name="specialRequests" rows="3" maxlength="500" placeholder="For example: window seat, high chair, or other arrangements..."></textarea>
+        </label>
+
+        <button class="btn" type="submit" style="width:100%; margin-top:1rem;">Confirm Reservation</button>
+        <p id="bookingMessage" role="status" style="margin-top:1rem; text-align:center;"></p>
+      </form>
+    </div>
+  </main>
+  <footer class="site-footer">© 2026 RestPro Reservation System
+  <a class="admin-settings-link" href="admin-login.html" aria-label="Administrator login" title="Administrator login">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19.14 12.94a7.49 7.49 0 0 0 .05-.94 7.49 7.49 0 0 0-.05-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.61-.22l-2.39.96a7.28 7.28 0 0 0-1.63-.95l-.36-2.54A.49.49 0 0 0 13.88 2h-3.76a.49.49 0 0 0-.49.41L9.27 4.95c-.59.23-1.14.55-1.63.95l-2.39-.96a.5.5 0 0 0-.61.22L2.72 8.48a.5.5 0 0 0 .12.64l2.03 1.58a7.49 7.49 0 0 0-.05.94c0 .32.02.63.05.94l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32a.5.5 0 0 0 .61.22l2.39-.96c.49.4 1.04.72 1.63.95l.36 2.54a.49.49 0 0 0 .49.41h3.76a.49.49 0 0 0 .49-.41l.36-2.54c.59-.23 1.14-.55 1.63-.95l2.39.96a.5.5 0 0 0 .61-.22l1.92-3.32a.5.5 0 0 0-.12-.64zM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg>
+  </a>
+</footer>
+</body>
+</html>
